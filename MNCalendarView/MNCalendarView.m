@@ -60,6 +60,29 @@
     return self;
 }
 
+-(id)initWithCoder:(NSCoder *)aDecoder{
+    if (self = [super initWithCoder:aDecoder]) {
+        
+        self.calendar   = NSCalendar.currentCalendar;
+        self.fromDate   = [NSDate.date mn_beginningOfDay:self.calendar];
+        self.toDate     = [self.fromDate dateByAddingTimeInterval:MN_YEAR * 4];
+        self.daysInWeek = 7;
+        
+        self.headerViewClass  = MNCalendarHeaderView.class;
+        self.weekdayCellClass = MNCalendarViewWeekdayCell.class;
+        self.dayCellClass     = MNCalendarViewDayCell.class;
+        
+        _separatorColor = [UIColor colorWithRed:.85f green:.85f blue:.85f alpha:1.f];
+        
+        [self addSubview:self.collectionView];
+        [self applyConstraints];
+        self.headerTitleColor = [UIColor blackColor];
+        self.tapEnabled = YES;
+        
+    }
+    return self;
+}
+
 -(void)setHeaderTitleColor:(UIColor *)headerTitleColor{
     _headerTitleColor = headerTitleColor;
     [self reloadData];
@@ -281,7 +304,7 @@
     NSUInteger day = indexPath.item - self.daysInWeek;
     
     NSDateComponents *components =
-    [self.calendar components:NSDayCalendarUnit|NSMonthCalendarUnit|NSYearCalendarUnit
+    [self.calendar components:NSDayCalendarUnit| NSWeekdayCalendarUnit|NSMonthCalendarUnit|NSYearCalendarUnit
                      fromDate:firstDateInMonth];
     components.day += day;
     
@@ -291,9 +314,15 @@
          calendar:self.calendar];
     [cell setEnabled:[self dateEnabled:date]];
     
+    components =
+    [self.calendar components:NSDayCalendarUnit| NSWeekdayCalendarUnit|NSMonthCalendarUnit|NSYearCalendarUnit
+                     fromDate:date];
+    
     
     if (self.selectedDate && cell.enabled) {
-        if (self.selectedDateRange.count < 2) {
+        BOOL isWeekend = (components.weekday == 1 || components.weekday == 7);
+        
+        if (self.selectedDateRange.count < 2 || isWeekend) {
             [cell setSelected:NO];
         }else{
             [cell.selectedBackgroundView setBackgroundColor:_inRangeDateBackgroundColor];
