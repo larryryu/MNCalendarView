@@ -138,8 +138,8 @@
     _selectedDate = [selectedDate mn_beginningOfDay:self.calendar];
 }
 
--(void)setSelectedDateRange:(NSArray *)selectedDateRange{
-    _selectedDateRange = selectedDateRange;
+-(void)setSelectedDates:(NSArray *)selectedDates{
+    _selectedDates = selectedDates;
     [self.collectionView reloadData];
 }
 
@@ -318,21 +318,26 @@
     [self.calendar components:NSDayCalendarUnit| NSWeekdayCalendarUnit|NSMonthCalendarUnit|NSYearCalendarUnit
                      fromDate:date];
     
+    cell.drawSplitColor = NO;
     
     if (self.selectedDate && cell.enabled) {
         BOOL isWeekend = (components.weekday == 1 || components.weekday == 7);
         
-        if (self.selectedDateRange.count < 2 || isWeekend) {
+        if (self.selectedDates.count < 2 || isWeekend) {
             [cell setSelected:NO];
         }else{
             [cell.selectedBackgroundView setBackgroundColor:_inRangeDateBackgroundColor];
-            [cell setSelected:[NSDate date:date isBetweenDate:self.selectedDateRange[0] andDate:self.selectedDateRange[1]]];
+            [cell setSelected:[NSDate date:date isBetweenDate:self.selectedDates[0] andDate:self.selectedDates[1]]];
         }
         
-        if ([date timeIntervalSinceDate:_selectedDateRange[0]] == 0) {
+        if ([NSDate date:date isBetweenDate:self.selectedDatesBeginingRange[0] andDate:self.selectedDatesBeginingRange[1]]) {
+            cell.drawSplitColor = YES;
             [cell.selectedBackgroundView setBackgroundColor:_beginDateBackgroundColor];
-        }else if ([date timeIntervalSinceDate:_selectedDateRange[1]] == 0){
+            [cell setNeedsLayout];
+        }else if ([NSDate date:date isBetweenDate:self.selectedDatesEndingRange[0] andDate:self.selectedDatesEndingRange[1]]){
             [cell.selectedBackgroundView setBackgroundColor:_endateDateBackgroundColor];
+        }else{
+            [cell.selectedBackgroundView setBackgroundColor:_inRangeDateBackgroundColor];
         }
     }
     

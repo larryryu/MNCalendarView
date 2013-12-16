@@ -14,6 +14,7 @@ extern NSString *const MNCalendarViewDayCellIdentifier;
 
 @property(nonatomic,strong,readonly) NSDate *date;
 @property(nonatomic,strong,readonly) NSDate *month;
+@property (nonatomic, assign) BOOL drawSplitColor;
 
 - (void)setDate:(NSDate *)date
           month:(NSDate *)month

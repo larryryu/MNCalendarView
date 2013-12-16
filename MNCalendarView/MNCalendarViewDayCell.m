@@ -11,14 +11,23 @@
 NSString *const MNCalendarViewDayCellIdentifier = @"MNCalendarViewDayCellIdentifier";
 
 @interface MNCalendarViewDayCell()
-
+{
+    
+}
 @property(nonatomic,strong,readwrite) NSDate *date;
 @property(nonatomic,strong,readwrite) NSDate *month;
 @property(nonatomic,assign,readwrite) NSUInteger weekday;
-
+@property(nonatomic, strong) CAShapeLayer *bottomShapeLayer;
 @end
 
 @implementation MNCalendarViewDayCell
+
+-(CAShapeLayer *)bottomShapeLayer{
+    if (!_bottomShapeLayer) {
+        _bottomShapeLayer = [CAShapeLayer layer];
+    }
+    return _bottomShapeLayer;
+}
 
 - (void)setDate:(NSDate *)date
           month:(NSDate *)month
@@ -67,6 +76,30 @@ NSString *const MNCalendarViewDayCellIdentifier = @"MNCalendarViewDayCellIdentif
     
     self.backgroundColor =
     self.enabled ? UIColor.whiteColor : [UIColor colorWithRed:.96f green:.96f blue:.96f alpha:1.f];
+}
+
+-(void)prepareForReuse{
+    [_bottomShapeLayer removeFromSuperlayer];
+}
+
+-(void)layoutSubviews{
+    [super layoutSubviews];
+    if (self.drawSplitColor) {
+        [self.selectedBackgroundView.layer insertSublayer:self.bottomShapeLayer atIndex:0];
+        
+        CGRect frame = self.bounds;
+        frame.size.height /= 2.0f;
+        CGRect topFrame = frame;
+        CGRect bottomFrame = CGRectOffset(topFrame, 0.0f, frame.size.height);
+        
+        UIBezierPath *bottomPath =[UIBezierPath bezierPathWithRect:bottomFrame];
+        
+        [self.bottomShapeLayer setPath:bottomPath.CGPath];
+        
+        [_bottomShapeLayer setFillColor:[[UIColor blackColor] colorWithAlphaComponent:0.5].CGColor];
+    }else{
+        [_bottomShapeLayer removeFromSuperlayer];
+    }
 }
 
 - (void)drawRect:(CGRect)rect {
