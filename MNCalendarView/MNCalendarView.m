@@ -322,9 +322,9 @@
     
     if (self.selectedDate && cell.enabled) {
         BOOL isWeekend = (components.weekday == 1 || components.weekday == 7);
-        BOOL hasRange = self.selectedDates.count < 2;
+        BOOL hasRange = self.selectedDates.count >= 2;
         
-        if (hasRange || isWeekend) {
+        if (!hasRange || isWeekend) {
             [cell setSelected:NO];
         }else{
             [cell.selectedBackgroundView setBackgroundColor:_inRangeDateBackgroundColor];
