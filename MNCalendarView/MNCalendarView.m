@@ -321,7 +321,10 @@
     cell.drawSplitColor = NO;
     
     if (self.selectedDate && cell.enabled) {
-        if (self.selectedDates.count < 2) {
+        BOOL isWeekend = (components.weekday == 1 || components.weekday == 7);
+        BOOL hasRange = self.selectedDates.count < 2;
+        
+        if (hasRange || isWeekend) {
             [cell setSelected:NO];
         }else{
             [cell.selectedBackgroundView setBackgroundColor:_inRangeDateBackgroundColor];
@@ -329,6 +332,7 @@
         }
         
         if ([NSDate date:date isBetweenDate:self.selectedDatesBeginingRange[0] andDate:self.selectedDatesBeginingRange[1]]) {
+            [cell setSelected:hasRange];
             cell.drawSplitColor = YES;
             [cell.selectedBackgroundView setBackgroundColor:_beginDateTopBackgroundColor];
             [cell setBottomHalfColor:self.beginDateBottomBackgroundColor];
