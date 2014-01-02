@@ -321,9 +321,7 @@
     cell.drawSplitColor = NO;
     
     if (self.selectedDate && cell.enabled) {
-        BOOL isWeekend = (components.weekday == 1 || components.weekday == 7);
-        
-        if (self.selectedDates.count < 2 || isWeekend) {
+        if (self.selectedDates.count < 2) {
             [cell setSelected:NO];
         }else{
             [cell.selectedBackgroundView setBackgroundColor:_inRangeDateBackgroundColor];
