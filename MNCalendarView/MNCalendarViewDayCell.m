@@ -96,7 +96,7 @@ NSString *const MNCalendarViewDayCellIdentifier = @"MNCalendarViewDayCellIdentif
         
         [self.bottomShapeLayer setPath:bottomPath.CGPath];
         
-        [_bottomShapeLayer setFillColor:[[UIColor blackColor] colorWithAlphaComponent:0.5].CGColor];
+        [_bottomShapeLayer setFillColor:self.bottomHalfColor.CGColor];
     }else{
         [_bottomShapeLayer removeFromSuperlayer];
     }

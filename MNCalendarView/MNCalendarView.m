@@ -332,7 +332,8 @@
         
         if ([NSDate date:date isBetweenDate:self.selectedDatesBeginingRange[0] andDate:self.selectedDatesBeginingRange[1]]) {
             cell.drawSplitColor = YES;
-            [cell.selectedBackgroundView setBackgroundColor:_beginDateBackgroundColor];
+            [cell.selectedBackgroundView setBackgroundColor:_beginDateTopBackgroundColor];
+            [cell setBottomHalfColor:self.beginDateBottomBackgroundColor];
             [cell setNeedsLayout];
         }else if ([NSDate date:date isBetweenDate:self.selectedDatesEndingRange[0] andDate:self.selectedDatesEndingRange[1]]){
             [cell.selectedBackgroundView setBackgroundColor:_endateDateBackgroundColor];

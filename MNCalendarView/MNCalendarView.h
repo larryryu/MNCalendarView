@@ -32,7 +32,8 @@
 @property(nonatomic, strong) UIColor *headerTitleColor;
 
 @property(nonatomic,strong) UIColor *separatorColor UI_APPEARANCE_SELECTOR; // default is the standard separator gray
-@property(nonatomic,strong) UIColor *beginDateBackgroundColor;
+@property(nonatomic,strong) UIColor *beginDateBottomBackgroundColor;
+@property(nonatomic,strong) UIColor *beginDateTopBackgroundColor;
 @property(nonatomic,strong) UIColor *inRangeDateBackgroundColor;
 @property(nonatomic,strong) UIColor *endateDateBackgroundColor;
 @property(nonatomic,assign) BOOL pagingEnableSetting;
